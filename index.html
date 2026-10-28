@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="粘贴文本本地检出并清除零宽/双向控制等不可见字符。纯前端，不上传。"
+    />
+    <title>clean-paste · 粘贴不可见字符清理</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>clean-paste</h1>
+        <p class="sub">
+          检出并清除粘贴文本中的零宽字符、BOM、双向控制、软连字符等不可见 Unicode。
+        </p>
+        <div class="privacy" title="所有处理均在本机浏览器完成">
+          🔒 本地处理 · 不上传 · 可离线打开
+        </div>
+      </header>
+
+      <section class="panel">
+        <label class="block" for="input">粘贴或输入文本</label>
+        <textarea
+          id="input"
+          spellcheck="false"
+          placeholder="在此粘贴日志、代码、工单内容…"
+        ></textarea>
+        <div class="toolbar">
+          <button type="button" id="btn-sample">填入示例</button>
+          <button type="button" id="btn-clean" class="primary">
+            清除不可见字符
+          </button>
+          <button type="button" id="btn-copy" disabled>一键复制清理结果</button>
+          <label class="toggle" title="将 NBSP / 窄 NBSP / 表意空格等替换为普通空格">
+            <input type="checkbox" id="opt-spaces" />
+            同时规范化非常规空格 → 普通空格
+          </label>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="stats">
+          <div>
+            <span id="count" class="count zero">0</span>
+            <span class="hint"> 处可疑/不可见字符</span>
+          </div>
+          <div class="hint" id="summary">尚未扫描</div>
+        </div>
+        <div id="findings-wrap" hidden>
+          <table class="findings" id="findings">
+            <thead>
+              <tr>
+                <th>码点</th>
+                <th>名称</th>
+                <th>次数</th>
+                <th>上下文样例</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel">
+        <label class="block">可视化预览（不可见字符标为 ⟦标签⟧，原文缓冲区不变）</label>
+        <div class="preview" id="preview" aria-live="polite"></div>
+      </section>
+
+      <section class="panel cleaned-box">
+        <label class="block" for="cleaned">清理结果</label>
+        <textarea id="cleaned" readonly spellcheck="false" placeholder="点击「清除不可见字符」后显示"></textarea>
+      </section>
+
+      <footer>
+        纯静态页面 · MIT ·
+        <a href="https://github.com/temptation2017/clean-paste">GitHub</a>
+      </footer>
+    </div>
+
+    <div class="toast" id="toast" role="status"></div>
+
+    <script src="clean.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
